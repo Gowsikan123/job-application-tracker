@@ -1,127 +1,146 @@
-# Job Application Tracker
+# 💼 Job Application Tracker
 
-A small FastAPI project for tracking job applications with JWT authentication and a minimal HTML/JavaScript frontend.
+A full-stack web application for tracking job applications from first contact to final outcome — with JWT authentication, per-user data isolation, a REST API, and a minimal vanilla JS frontend.
 
-Built as a portfolio project to demonstrate production-style Python backend skills (FastAPI, SQLAlchemy, JWT auth) plus a simple browser UI for CRUD.
-
----
-
-## Tech Stack
-
-- Python 3.13
-- FastAPI
-- Pydantic v2
-- SQLAlchemy ORM
-- SQLite (local development)
-- Uvicorn
-- HTML + vanilla JavaScript + CSS (no frontend framework)
+Built with **FastAPI**, **SQLite**, and **SQLAlchemy** as a portfolio project demonstrating production-style Python backend skills.
 
 ---
 
-## Features
+## ✨ Features
 
-### Backend
-
-- JWT-based authentication
-  - Register new user
-  - Login to get access token
-  - Protected routes using `Authorization: Bearer <token>`
-- Job applications (per user)
-  - Create application
-  - List your applications
-  - Update application
-  - Delete application
-- Data persisted in SQLite so it survives server restarts
-
-### Frontend
-
-- Simple web UI served at `/`
-- Register and login forms
-- “Add / Edit Application” form
-- “Your Applications” list with Edit/Delete buttons
-- All operations use `fetch` to call the FastAPI API
-
-### Nice-to-have ideas (not implemented yet)
-
-- Filters by status, source, or date
-- Basic stats (how many applied, interview, offer, rejected)
-- Switch to PostgreSQL for production
-- Docker setup with Postgres + Redis
+- 🔐 **JWT authentication** — register, login, and protected routes via Bearer tokens
+- 📋 **Application management** — create, read, update, and delete job applications
+- 👤 **Per-user isolation** — each user only sees their own data
+- 🌐 **Minimal frontend** — register, login, and manage applications from the browser
+- 💬 **Swagger UI** — built-in interactive API docs at `/docs`
+- 🗃️ **SQLite persistence** — data survives server restarts
+- 🐳 **Docker support** — run the full app with Docker Compose
 
 ---
 
-## Getting Started
+## 🛠️ Tech Stack
 
-### 1. Clone the repo
+| Layer | Technology |
+|---|---|
+| Backend | FastAPI (Python 3.13) |
+| Database | SQLite + SQLAlchemy ORM |
+| Auth | JWT (Bearer tokens via python-jose) |
+| Validation | Pydantic v2 |
+| Frontend | HTML, CSS, Vanilla JavaScript |
+| Server | Uvicorn (ASGI) |
+| Container | Docker + Docker Compose |
+
+---
+
+## 📁 Project Structure
+
+```
+job-application-tracker/
+├── app/
+│   ├── main.py           # App entry point and router registration
+│   ├── api/              # Route handlers (auth, applications)
+│   ├── models/           # SQLAlchemy database models
+│   ├── schemas/          # Pydantic request/response schemas
+│   ├── db/               # Database setup and session management
+│   ├── core/             # Config, security, and JWT utilities
+│   ├── templates/        # HTML templates
+│   └── static/           # CSS and JavaScript files
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── .env.example
+```
+
+---
+
+## 🚀 Getting Started
+
+### Option A — Run locally
+
+#### 1. Clone the repo
 
 ```bash
 git clone https://github.com/Gowsikan123/job-application-tracker.git
 cd job-application-tracker
 ```
 
-### 2. Create and activate a virtual environment
+#### 2. Create and activate a virtual environment
 
 ```bash
+# Windows
 python -m venv .venv
-
-# Windows PowerShell
 .\.venv\Scripts\Activate.ps1
+
+# macOS/Linux
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### 3. Install dependencies
+#### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+#### 4. Set up environment variables
 
-Copy `.env.example` to `.env` and adjust if needed:
+```bash
+cp .env.example .env
+# Edit .env with your values
+```
+
+Key variables:
 
 ```env
-APP_ENV=development
-APP_HOST=127.0.0.1
-APP_PORT=8000
-
 DATABASE_URL=sqlite:///./job_tracker.db
-
 JWT_SECRET_KEY=change-me
 JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
 ```
 
-The default `DATABASE_URL` uses a local SQLite file.
-
-### 5. Run the app
+#### 5. Run the app
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
+### Option B — Run with Docker
+
+```bash
+docker-compose up --build
+```
+
 Then open:
 
-- Frontend: http://127.0.0.1:8000/
-- API docs (Swagger): http://127.0.0.1:8000/docs
+- **Frontend:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- **API docs (Swagger):** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ---
 
-## Usage
+## 📖 API Overview
 
-1. Go to the root page (`/`).
-2. Register a new account.
-3. Log in with that account.
-4. Add, edit, and delete your job applications from the UI.
-5. Optionally, call the API directly using the Swagger docs or a tool like Postman.
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/auth/register` | Register a new user |
+| `POST` | `/auth/login` | Login and receive JWT token |
+| `GET` | `/applications` | List your applications |
+| `POST` | `/applications` | Create a new application |
+| `PUT` | `/applications/{id}` | Update an application |
+| `DELETE` | `/applications/{id}` | Delete an application |
 
-Each user only sees **their own** applications.
+All `/applications` routes require `Authorization: Bearer <token>`.
 
 ---
 
-## Why this project exists
+## 🔮 Planned Improvements
 
-This project is meant as a compact demonstration of:
+- Filter by status, company, or date applied
+- Dashboard stats (applied, interviewing, offers, rejected)
+- Notes and timeline per application
+- Switch to PostgreSQL for production deployments
 
-- building a FastAPI backend with authentication,
-- structuring CRUD endpoints with SQLAlchemy and Pydantic,
-- wiring a minimal frontend to an API using `fetch`,
-- and documenting setup clearly so others can run it easily.
+---
+
+## 👤 Author
+
+**Gowsikan** — [GitHub](https://github.com/Gowsikan123)
