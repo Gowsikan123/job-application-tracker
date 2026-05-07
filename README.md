@@ -1,146 +1,91 @@
-# 💼 Job Application Tracker
+# Job Application Tracker
 
-A full-stack web application for tracking job applications from first contact to final outcome — with JWT authentication, per-user data isolation, a REST API, and a minimal vanilla JS frontend.
+> A self-hosted web application to track job applications, statuses, and deadlines — built with FastAPI and Docker.
 
-Built with **FastAPI**, **SQLite**, and **SQLAlchemy** as a portfolio project demonstrating production-style Python backend skills.
-
----
-
-## ✨ Features
-
-- 🔐 **JWT authentication** — register, login, and protected routes via Bearer tokens
-- 📋 **Application management** — create, read, update, and delete job applications
-- 👤 **Per-user isolation** — each user only sees their own data
-- 🌐 **Minimal frontend** — register, login, and manage applications from the browser
-- 💬 **Swagger UI** — built-in interactive API docs at `/docs`
-- 🗃️ **SQLite persistence** — data survives server restarts
-- 🐳 **Docker support** — run the full app with Docker Compose
+![Status](https://img.shields.io/badge/status-complete-brightgreen)
+![Stack](https://img.shields.io/badge/stack-FastAPI%20%7C%20Docker%20%7C%20SQLite-informational)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 
 ---
 
-## 🛠️ Tech Stack
+## What It Does
 
-| Layer | Technology |
-|---|---|
-| Backend | FastAPI (Python 3.13) |
-| Database | SQLite + SQLAlchemy ORM |
-| Auth | JWT (Bearer tokens via python-jose) |
-| Validation | Pydantic v2 |
-| Frontend | HTML, CSS, Vanilla JavaScript |
-| Server | Uvicorn (ASGI) |
-| Container | Docker + Docker Compose |
+Tired of tracking job applications across spreadsheets and browser tabs? This app gives you a clean dashboard to log every application, track its status through the pipeline, and set reminders for follow-ups and deadlines.
+
+Built as a personal productivity tool and a practical exercise in containerised Python web services.
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
 
-```
-job-application-tracker/
-├── app/
-│   ├── main.py           # App entry point and router registration
-│   ├── api/              # Route handlers (auth, applications)
-│   ├── models/           # SQLAlchemy database models
-│   ├── schemas/          # Pydantic request/response schemas
-│   ├── db/               # Database setup and session management
-│   ├── core/             # Config, security, and JWT utilities
-│   ├── templates/        # HTML templates
-│   └── static/           # CSS and JavaScript files
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-└── .env.example
-```
+| Layer | Technology | Why |
+|---|---|---|
+| Backend | FastAPI | Modern async Python API with automatic OpenAPI docs |
+| Database | SQLite | Simple, file-based persistence, no server required |
+| Containerisation | Docker | Reproducible environment, one-command setup |
+| Frontend | Jinja2 Templates | Server-rendered HTML — fast and dependency-free |
 
 ---
 
-## 🚀 Getting Started
+## Key Features
 
-### Option A — Run locally
+- **Application logging** — Add companies, roles, application dates, and URLs
+- **Status pipeline** — Track each application through: Applied → Interview → Offer → Rejected
+- **Deadline tracking** — Flag upcoming interviews and follow-up dates
+- **Dashboard view** — At-a-glance summary of your whole job search
+- **Dockerised** — Runs identically on any machine with Docker installed
+- **Auto API docs** — FastAPI's built-in `/docs` Swagger UI for exploring the API
 
-#### 1. Clone the repo
+---
 
+## Local Setup
+
+### With Docker (recommended)
 ```bash
 git clone https://github.com/Gowsikan123/job-application-tracker.git
 cd job-application-tracker
+docker build -t job-tracker .
+docker run -p 8000:8000 job-tracker
+# Open http://localhost:8000
 ```
 
-#### 2. Create and activate a virtual environment
-
+### Without Docker
 ```bash
-# Windows
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-# macOS/Linux
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-#### 3. Install dependencies
-
-```bash
+git clone https://github.com/Gowsikan123/job-application-tracker.git
+cd job-application-tracker
+python -m venv venv
+source venv/bin/activate       # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+uvicorn main:app --reload
+# Open http://localhost:8000
 ```
-
-#### 4. Set up environment variables
-
-```bash
-cp .env.example .env
-# Edit .env with your values
-```
-
-Key variables:
-
-```env
-DATABASE_URL=sqlite:///./job_tracker.db
-JWT_SECRET_KEY=change-me
-JWT_ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
-```
-
-#### 5. Run the app
-
-```bash
-uvicorn app.main:app --reload
-```
-
-### Option B — Run with Docker
-
-```bash
-docker-compose up --build
-```
-
-Then open:
-
-- **Frontend:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **API docs (Swagger):** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ---
 
-## 📖 API Overview
+## API Reference
 
-| Method | Endpoint | Description |
+FastAPI generates interactive documentation automatically:
+
+| Endpoint | Method | Description |
 |---|---|---|
-| `POST` | `/auth/register` | Register a new user |
-| `POST` | `/auth/login` | Login and receive JWT token |
-| `GET` | `/applications` | List your applications |
-| `POST` | `/applications` | Create a new application |
-| `PUT` | `/applications/{id}` | Update an application |
-| `DELETE` | `/applications/{id}` | Delete an application |
-
-All `/applications` routes require `Authorization: Bearer <token>`.
+| `/` | GET | Dashboard view |
+| `/applications` | GET | List all applications |
+| `/applications` | POST | Add a new application |
+| `/applications/{id}` | PUT | Update status or details |
+| `/applications/{id}` | DELETE | Remove an application |
+| `/docs` | GET | Swagger UI — interactive API explorer |
 
 ---
 
-## 🔮 Planned Improvements
+## What I Learned
 
-- Filter by status, company, or date applied
-- Dashboard stats (applied, interviewing, offers, rejected)
-- Notes and timeline per application
-- Switch to PostgreSQL for production deployments
+- Structuring a FastAPI project with routers, models, and schemas
+- Writing Dockerfiles and understanding container networking
+- Using SQLAlchemy ORM with SQLite for type-safe database access
+- Serving server-rendered HTML from a Python backend (Jinja2 templating)
 
 ---
 
-## 👤 Author
+## Author
 
 **Gowsikan** — [GitHub](https://github.com/Gowsikan123)
