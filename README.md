@@ -83,9 +83,3 @@ FastAPI generates interactive documentation automatically:
 - Writing Dockerfiles and understanding container networking
 - Using SQLAlchemy ORM with SQLite for type-safe database access
 - Serving server-rendered HTML from a Python backend (Jinja2 templating)
-
----
-
-## Author
-
-**Gowsikan** — [GitHub](https://github.com/Gowsikan123)
